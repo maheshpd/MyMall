@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mymall.MainActivity;
 import com.example.mymall.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -131,7 +130,7 @@ public class SignInFragment extends Fragment {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                onResetPasswordFragment = true;
                 setFragment(new ResetPassword());
             }
         });

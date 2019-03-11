@@ -21,16 +21,11 @@ public class RegisterActivity extends AppCompatActivity {
         setDefaultFragment(new SignInFragment());
     }
 
-    private void setFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(frameLayout.getId(), fragment);
-        fragmentTransaction.commit();
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (onResetPasswordFragment) {
+                onResetPasswordFragment = false;
                 setFragment(new SignInFragment());
                 return false;
             }
@@ -41,6 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
     private void setDefaultFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_from_left, R.anim.slideout_from_right);
+        fragmentTransaction.replace(frameLayout.getId(), fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(frameLayout.getId(), fragment);
         fragmentTransaction.commit();
     }
