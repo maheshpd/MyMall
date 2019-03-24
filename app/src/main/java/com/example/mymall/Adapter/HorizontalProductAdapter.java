@@ -16,11 +16,9 @@ import java.util.List;
 
 public class HorizontalProductAdapter extends RecyclerView.Adapter<HorizontalProductAdapter.HorizontalProductViewHolder> {
     private List<HorizontalProductScrollModel> list;
-    private Context context;
 
-    public HorizontalProductAdapter(List<HorizontalProductScrollModel> list, Context context) {
+    public HorizontalProductAdapter(List<HorizontalProductScrollModel> list) {
         this.list = list;
-        this.context = context;
     }
 
     @NonNull
@@ -40,7 +38,11 @@ public class HorizontalProductAdapter extends RecyclerView.Adapter<HorizontalPro
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list.size() > 8) {
+            return 8;
+        } else {
+            return list.size();
+        }
     }
 
     public class HorizontalProductViewHolder extends RecyclerView.ViewHolder {

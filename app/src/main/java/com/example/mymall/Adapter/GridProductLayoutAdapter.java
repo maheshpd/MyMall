@@ -10,18 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mymall.Model.GridProductScrollModel;
+import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.R;
 
 import java.util.List;
 
 public class GridProductLayoutAdapter extends BaseAdapter {
 
-    List<GridProductScrollModel> gridProductScrollModelList;
+    List<HorizontalProductScrollModel> gridProductScrollModelList;
     private Context context;
 
-    public GridProductLayoutAdapter(List<GridProductScrollModel> gridProductScrollModelList, Context context) {
+    public GridProductLayoutAdapter(List<HorizontalProductScrollModel> gridProductScrollModelList) {
         this.gridProductScrollModelList = gridProductScrollModelList;
-        this.context = context;
     }
 
     @Override
