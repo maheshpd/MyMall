@@ -1,4 +1,4 @@
-package com.example.mymall;
+package com.example.mymall.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.example.mymall.Model.CategoryModel;
 import com.example.mymall.Model.HomePageModel;
 import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.Model.SliderModel;
+import com.example.mymall.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,11 @@
-package com.example.mymall;
+package com.example.mymall.activity;
 
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.mymall.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

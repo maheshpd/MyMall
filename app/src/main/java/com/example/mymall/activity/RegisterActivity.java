@@ -1,4 +1,4 @@
-package com.example.mymall;
+package com.example.mymall.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
+import com.example.mymall.R;
 import com.example.mymall.fragment.SignInFragment;
 
 public class RegisterActivity extends AppCompatActivity {

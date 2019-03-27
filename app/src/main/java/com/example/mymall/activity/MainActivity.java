@@ -1,4 +1,4 @@
-package com.example.mymall;
+package com.example.mymall.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.mymall.R;
 import com.example.mymall.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity

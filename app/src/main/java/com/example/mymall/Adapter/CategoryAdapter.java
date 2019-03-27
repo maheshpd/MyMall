@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mymall.CategoryActivity;
+import com.example.mymall.activity.CategoryActivity;
 import com.example.mymall.Model.CategoryModel;
 import com.example.mymall.R;
 
