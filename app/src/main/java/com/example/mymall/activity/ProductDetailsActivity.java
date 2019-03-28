@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.mymall.Adapter.ProductDetailsAdapter;
 import com.example.mymall.Adapter.ProductImagesAdapter;
@@ -28,6 +30,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private ViewPager productDetailsViewpager;
     private TabLayout productDetailsTabLayout;
 
+    //start rating layout
+    private LinearLayout rateNowContainer;
+
+    //end rating layout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +93,29 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+        ////rating layout
+        rateNowContainer = findViewById(R.id.rate_now_container);
+        for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
+            final int startPosition = x;
+            rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setRating(startPosition);
+                }
+            });
+        }
+        ////rating layout
+    }
+
+    private void setRating(int startPosition) {
+        for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
+            ImageView startBtn = (ImageView) rateNowContainer.getChildAt(x);
+            startBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#bebebe")));
+            if (x <= startPosition){
+                startBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
+            }
+        }
     }
 
     @Override

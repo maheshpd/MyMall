@@ -1,6 +1,7 @@
 package com.example.mymall.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.mymall.Model.GridProductScrollModel;
 import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.R;
+import com.example.mymall.activity.ProductDetailsActivity;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class GridProductLayoutAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         View view;
 
         if (convertView == null) {
@@ -56,6 +58,14 @@ public class GridProductLayoutAdapter extends BaseAdapter {
             productTitle.setText(gridProductScrollModelList.get(position).getProductTitle());
             productDescription.setText(gridProductScrollModelList.get(position).getProductDescription());
             productPrice.setText(gridProductScrollModelList.get(position).getProductPrice());
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productDetailsIntent = new Intent(parent.getContext(), ProductDetailsActivity.class);
+                    parent.getContext().startActivity(productDetailsIntent);
+                }
+            });
         } else {
             view = convertView;
         }
