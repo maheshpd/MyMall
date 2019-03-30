@@ -13,7 +13,7 @@ import com.example.mymall.R;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter {
     private List<CartItemModel> cartItemModelList;
 
     public CartAdapter(List<CartItemModel> cartItemModelList) {
@@ -22,30 +22,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @NonNull
     @Override
-    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         switch (viewType) {
             case CartItemModel.CART_ITEM:
-                View cartItemview = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cart_item_layout, viewGroup, false);
-                return new CartViewHolder(cartItemview);
+                View cartItemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cart_item_layout, viewGroup, false);
+                return new CartItemViewHolder(cartItemView);
             case CartItemModel.TOTAL_AMOUNT:
                 View cartTotalView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cart_total_amount_layout, viewGroup, false);
-                return new CartViewHolder(cartTotalView);
+                return new CartTotalAmountViewHolder(cartTotalView);
             default:
                 return null;
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartViewHolder cartViewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         switch (cartItemModelList.get(position).getType()) {
             case CartItemModel.CART_ITEM:
                 int resource = cartItemModelList.get(position).getProductImage();
-                String title = cartItemModelList.get(position).getProductTitle();
+                String tital = cartItemModelList.get(position).getProductTitle();
                 int freeCoupens = cartItemModelList.get(position).getFreeCoupen();
-                String productPrice = cartItemModelList.get(position).getProductPrice();
+                String productprice = cartItemModelList.get(position).getProductPrice();
                 String cuttedPrice = cartItemModelList.get(position).getCutedPrice();
                 int offersApplied = cartItemModelList.get(position).getOffersApplied();
-                (cartViewHolder).setItemDetails(resource,title,freeCoupens,productPrice,cuttedPrice,offersApplied);
+                ((CartItemViewHolder) viewHolder).setItemDetails(resource, tital, freeCoupens, productprice, cuttedPrice, offersApplied);
                 break;
             case CartItemModel.TOTAL_AMOUNT:
                 String totalItems = cartItemModelList.get(position).getTotalItems();
@@ -53,11 +53,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 String deliveryPrice = cartItemModelList.get(position).getDeliveryPrice();
                 String totalAmount = cartItemModelList.get(position).getTotalAmount();
                 String savedAmount = cartItemModelList.get(position).getSavedAmount();
-               ((Ca))
+                ((CartTotalAmountViewHolder) viewHolder).setTotalAmount(totalItems, totalItemPrice, deliveryPrice, totalAmount, savedAmount);
                 break;
             default:
                 return;
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return cartItemModelList.size();
     }
 
     @Override
@@ -72,48 +77,49 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return cartItemModelList.size();
-    }
+    class CartItemViewHolder extends RecyclerView.ViewHolder {
+        private ImageView productImage;
+        private ImageView freeCoupenIcon;
+        private TextView productTitle;
+        private TextView freeCoupens;
+        private TextView productPrice;
+        private TextView cuttedPrice;
+        private TextView offersApplied;
+        private TextView coupensApplied;
+        private TextView productQuantity;
 
-    public class CartViewHolder extends RecyclerView.ViewHolder {
-        private ImageView productImage, coupenIcon;
-        private TextView productTitle, freeCoupens, productPrice, cuttedPrice, offersApplied, coupensApplied, productQty;
-
-        public CartViewHolder(@NonNull View itemView) {
+        public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             productImage = itemView.findViewById(R.id.product_image);
-            coupenIcon = itemView.findViewById(R.id.free_coupen_icon);
+            freeCoupenIcon = itemView.findViewById(R.id.free_coupen_icon);
             productTitle = itemView.findViewById(R.id.product_title);
             freeCoupens = itemView.findViewById(R.id.tv_free_coupen);
             productPrice = itemView.findViewById(R.id.productPrice);
             cuttedPrice = itemView.findViewById(R.id.cutted_price);
             offersApplied = itemView.findViewById(R.id.offers_applied);
             coupensApplied = itemView.findViewById(R.id.coupens_applied);
-            productQty = itemView.findViewById(R.id.product_quantity);
+            productQuantity = itemView.findViewById(R.id.product_quantity);
         }
 
-        private void setItemDetails(int resource, String title, int freeCoupensNo, String productPriceText, String cuttedPticeText, int offersAppliedNo,) {
+        private void setItemDetails(int resource, String title, int freeCoupensNo, String productPriceText, String cuttedPriceText, int offersAppliedNo) {
             productImage.setImageResource(resource);
             productTitle.setText(title);
-
             if (freeCoupensNo > 0) {
-                coupenIcon.setVisibility(View.VISIBLE);
-                freeCoupens.setVisibility(View.VISIBLE);
                 if (freeCoupensNo == 1) {
+                    freeCoupenIcon.setVisibility(View.VISIBLE);
+                    freeCoupens.setVisibility(View.VISIBLE);
                     freeCoupens.setText("free" + freeCoupensNo + "Coupen");
                 } else {
                     freeCoupens.setText("free" + freeCoupensNo + "Coupens");
                 }
             } else {
-                freeCoupens.setVisibility(View.VISIBLE);
-                coupenIcon.setVisibility(View.VISIBLE);
+                freeCoupenIcon.setVisibility(View.INVISIBLE);
+                freeCoupens.setVisibility(View.INVISIBLE);
             }
-
             productPrice.setText(productPriceText);
-            cuttedPrice.setText(cuttedPticeText);
+            cuttedPrice.setText(cuttedPriceText);
+
             if (offersAppliedNo > 0) {
                 offersApplied.setVisibility(View.VISIBLE);
                 offersApplied.setText(offersAppliedNo + "Offers applied");
@@ -121,14 +127,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 offersApplied.setVisibility(View.INVISIBLE);
             }
 
-
         }
-
 
     }
 
-    public class CartTotalAmountViewHolder extends RecyclerView.ViewHolder {
-        private TextView totalItems, totalItemPrice, deliveryPrice, totalAmount, savedAmount;
+    class CartTotalAmountViewHolder extends RecyclerView.ViewHolder {
+        private TextView totalItems;
+        private TextView totalItemPrice;
+        private TextView deliveryPrice;
+        private TextView totalAmount;
+        private TextView savedAmount;
 
         public CartTotalAmountViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -140,14 +148,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             savedAmount = itemView.findViewById(R.id.saved_amount);
         }
 
-        public void setTotalAmount(String totalItemText, String totalItemPriceText, String deliveryPriceText, String totalAmountText, String savedAmountText) {
+        private void setTotalAmount(String totalItemText, String totalItemPriceText, String deliveryPriceText, String totalAmountText, String savedAmountText) {
             totalItems.setText(totalItemText);
             totalItemPrice.setText(totalItemPriceText);
             deliveryPrice.setText(deliveryPriceText);
             totalAmount.setText(totalAmountText);
             savedAmount.setText(savedAmountText);
         }
-
-
     }
 }

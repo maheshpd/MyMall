@@ -18,11 +18,17 @@ import android.widget.FrameLayout;
 
 import com.example.mymall.R;
 import com.example.mymall.fragment.HomeFragment;
+import com.example.mymall.fragment.MyCartFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FrameLayout frameLayout;
+    private static final int HOME_FRAGMENT = 0;
+    public static final int CART_FRAGMENT = 1;
+
+    private static int currentFragment;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +44,12 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout = findViewById(R.id.main_frame);
-        setFragment(new HomeFragment());
+        setFragment(new HomeFragment(), HOME_FRAGMENT);
     }
 
     @Override
@@ -59,7 +65,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        if (currentFragment == HOME_FRAGMENT) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
         return true;
     }
 
@@ -79,8 +87,17 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.main_cart_icon) {
             //todo:cart
+            myCart();
+            return true;
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void myCart() {
+        invalidateOptionsMenu();
+        setFragment(new MyCartFragment(), CART_FRAGMENT);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -90,13 +107,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_my_mall) {
-            // Handle the camera action
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
         } else if (id == R.id.nav_my_order) {
 
         } else if (id == R.id.nav_my_reward) {
 
         } else if (id == R.id.nav_my_cart) {
-
+            myCart();
         } else if (id == R.id.nav_my_wishlist) {
 
         } else if (id == R.id.nav_my_account) {
@@ -109,9 +126,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void setFragment(Fragment fragment) {
+    public void setFragment(Fragment fragment, int fragmentNo) {
+        currentFragment = fragmentNo;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(frameLayout.getId(),fragment);
+        fragmentTransaction.replace(frameLayout.getId(), fragment);
         fragmentTransaction.commit();
     }
 }
