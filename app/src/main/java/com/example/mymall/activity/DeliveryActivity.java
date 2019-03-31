@@ -1,5 +1,6 @@
 package com.example.mymall.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,13 @@ public class DeliveryActivity extends AppCompatActivity {
         deliveryRecyclerview.setHasFixedSize(true);
         cartAdapter.notifyDataSetChanged();
         changeOraddNewAddressBtn.setVisibility(View.VISIBLE);
+        changeOraddNewAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myAddressesIntent = new Intent(DeliveryActivity.this, MyAddressesActivity.class);
+                startActivity(myAddressesIntent);
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
