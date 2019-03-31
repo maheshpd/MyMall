@@ -19,6 +19,7 @@ import com.example.mymall.R;
 import com.example.mymall.fragment.HomeFragment;
 import com.example.mymall.fragment.MyCartFragment;
 import com.example.mymall.fragment.MyOrdersFragment;
+import com.example.mymall.fragment.MyWishlistFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity
     private static final int HOME_FRAGMENT = 0;
     public static final int CART_FRAGMENT = 1;
     public static final int ORDERS_FRAGMENT = 2;
+    public static final int WISHLIST_FRAGMENT = 3;
 
     private ImageView actionbarLogo;
     private static int currentFragment = -1;
@@ -61,7 +63,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (currentFragment == HOME_FRAGMENT) {
+                super.onBackPressed();
+            }else {
+                actionbarLogo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setFragment(new HomeFragment(), HOME_FRAGMENT);
+                navigationView.getMenu().getItem(0).setChecked(true);
+            }
         }
     }
 
@@ -127,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_cart) {
             goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
         } else if (id == R.id.nav_my_wishlist) {
-
+            goToFragment("My Wishlist", new MyWishlistFragment(), WISHLIST_FRAGMENT);
         } else if (id == R.id.nav_my_account) {
 
         } else if (id == R.id.nav_Signout) {
