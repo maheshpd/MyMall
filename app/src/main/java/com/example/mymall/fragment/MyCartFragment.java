@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.example.mymall.Adapter.CartAdapter;
 import com.example.mymall.Model.CartItemModel;
 import com.example.mymall.R;
+import com.example.mymall.activity.AddressActivity;
 import com.example.mymall.activity.DeliveryActivity;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class MyCartFragment extends Fragment {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent deliveryIntent = new Intent(getContext(), DeliveryActivity.class);
+                Intent deliveryIntent = new Intent(getContext(), AddressActivity.class);
                 getContext().startActivity(deliveryIntent);
             }
         });
