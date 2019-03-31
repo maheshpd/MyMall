@@ -10,7 +10,7 @@
         android:id="@+id/cart_item_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:background="@color/recyclerview_background"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintTop_toTopOf="parent" />
 
