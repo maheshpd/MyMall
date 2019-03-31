@@ -1,6 +1,7 @@
 package com.example.mymall.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.mymall.Adapter.CartAdapter;
 import com.example.mymall.Model.CartItemModel;
 import com.example.mymall.R;
+import com.example.mymall.activity.DeliveryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ public class MyCartFragment extends Fragment {
     }
 
     private RecyclerView cartItemsRecyclerView;
-
+    private Button btnContinue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +38,8 @@ public class MyCartFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
         cartItemsRecyclerView = view.findViewById(R.id.cart_item_recyclerview);
+        btnContinue = view.findViewById(R.id.cart_continue_btn);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         cartItemsRecyclerView.setLayoutManager(layoutManager);
 
@@ -48,6 +53,14 @@ public class MyCartFragment extends Fragment {
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartItemsRecyclerView.setHasFixedSize(true);
         cartAdapter.notifyDataSetChanged();
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent deliveryIntent = new Intent(getContext(), DeliveryActivity.class);
+                getContext().startActivity(deliveryIntent);
+            }
+        });
         return view;
     }
 
