@@ -14,6 +14,7 @@ import com.example.mymall.R;
  */
 public class MyAccountFragment extends Fragment {
 
+    public static final int MANAGE_ADDRESS = 1;
 
     public MyAccountFragment() {
         // Required empty public constructor
