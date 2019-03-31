@@ -19,7 +19,7 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
     public MyRewardsAdapter(List<RewardModel> rewardModelList) {
         this.rewardModelList = rewardModelList;
     }
-
+////
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
