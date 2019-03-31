@@ -20,6 +20,7 @@ import android.widget.ImageView;
 
 import com.example.mymall.R;
 import com.example.mymall.fragment.HomeFragment;
+import com.example.mymall.fragment.MyAccountFragment;
 import com.example.mymall.fragment.MyCartFragment;
 import com.example.mymall.fragment.MyOrdersFragment;
 import com.example.mymall.fragment.MyRewardsFragment;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     public static final int ORDERS_FRAGMENT = 2;
     public static final int WISHLIST_FRAGMENT = 3;
     public static final int REWARDS_FRAGMENT = 4;
+    public static final int MY_ACCOUNT_FRAGMENT = 5;
 
     private ImageView actionbarLogo;
     private static int currentFragment = -1;
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_wishlist) {
             goToFragment("My Wishlist", new MyWishlistFragment(), WISHLIST_FRAGMENT);
         } else if (id == R.id.nav_my_account) {
-
+            goToFragment("My Account",new MyAccountFragment(),MY_ACCOUNT_FRAGMENT);
         } else if (id == R.id.nav_Signout) {
 
         }
