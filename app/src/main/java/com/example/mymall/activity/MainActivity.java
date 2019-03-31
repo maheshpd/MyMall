@@ -1,5 +1,6 @@
 package com.example.mymall.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -19,6 +22,7 @@ import com.example.mymall.R;
 import com.example.mymall.fragment.HomeFragment;
 import com.example.mymall.fragment.MyCartFragment;
 import com.example.mymall.fragment.MyOrdersFragment;
+import com.example.mymall.fragment.MyRewardsFragment;
 import com.example.mymall.fragment.MyWishlistFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -29,19 +33,26 @@ public class MainActivity extends AppCompatActivity
     public static final int CART_FRAGMENT = 1;
     public static final int ORDERS_FRAGMENT = 2;
     public static final int WISHLIST_FRAGMENT = 3;
+    public static final int REWARDS_FRAGMENT = 4;
 
     private ImageView actionbarLogo;
     private static int currentFragment = -1;
     NavigationView navigationView;
 
+    private Window window;
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         actionbarLogo = findViewById(R.id.actionbar_logo);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             if (currentFragment == HOME_FRAGMENT) {
                 super.onBackPressed();
-            }else {
+            } else {
                 actionbarLogo.setVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
                 setFragment(new HomeFragment(), HOME_FRAGMENT);
@@ -132,7 +143,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_order) {
             goToFragment("My Orders", new MyOrdersFragment(), ORDERS_FRAGMENT);
         } else if (id == R.id.nav_my_reward) {
-
+            goToFragment("My Rewards", new MyRewardsFragment(), REWARDS_FRAGMENT);
         } else if (id == R.id.nav_my_cart) {
             goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
         } else if (id == R.id.nav_my_wishlist) {
@@ -149,6 +160,13 @@ public class MainActivity extends AppCompatActivity
 
     public void setFragment(Fragment fragment, int fragmentNo) {
         if (fragmentNo != currentFragment) {
+            if (fragmentNo == REWARDS_FRAGMENT) {
+                window.setStatusBarColor(Color.parseColor("#5B04B1"));
+                toolbar.setBackgroundColor(Color.parseColor("#5B04B1"));
+            } else {
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fede_in, R.anim.fede_out);
