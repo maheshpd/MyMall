@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.mymall.Adapter.AddressesAdapter;
 import com.example.mymall.Model.AddressesModel;
@@ -15,10 +17,13 @@ import com.example.mymall.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.mymall.activity.DeliveryActivity.SELECTE_ADDRESS;
+
 public class MyAddressesActivity extends AppCompatActivity {
     Toolbar toolbar;
     private RecyclerView myAddressesRecyclerView;
     private static AddressesAdapter addressesAdapter;
+    private Button deliverHereBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +37,28 @@ public class MyAddressesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myAddressesRecyclerView = findViewById(R.id.addresses_recyclerview);
+        deliverHereBtn = findViewById(R.id.deliver_here_btn);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         myAddressesRecyclerView.setLayoutManager(layoutManager);
 
         List<AddressesModel> addressesModelList = new ArrayList<>();
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
-        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456",true));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", true));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
+        addressesModelList.add(new AddressesModel("Prasad", "Nallasopara", "123456", false));
 
-        int mode = getIntent().getIntExtra("Mode",-1);
-
-        addressesAdapter = new AddressesAdapter(addressesModelList,ode);
+        int mode = getIntent().getIntExtra("MODE", -1);
+        if (mode == SELECTE_ADDRESS) {
+            deliverHereBtn.setVisibility(View.VISIBLE);
+        }else {
+            deliverHereBtn.setVisibility(View.GONE);
+        }
+        addressesAdapter = new AddressesAdapter(addressesModelList, mode);
         myAddressesRecyclerView.setAdapter(addressesAdapter);
         myAddressesRecyclerView.setHasFixedSize(true);
         ((SimpleItemAnimator) myAddressesRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);

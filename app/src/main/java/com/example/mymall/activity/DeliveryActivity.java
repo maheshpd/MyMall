@@ -56,8 +56,7 @@ public class DeliveryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myAddressesIntent = new Intent(DeliveryActivity.this, MyAddressesActivity.class);
-                myAddressesIntent.putExtra("MODE","SELECT_ADDRESS");
-
+                myAddressesIntent.putExtra("MODE",SELECTE_ADDRESS);
                 startActivity(myAddressesIntent);
             }
         });
