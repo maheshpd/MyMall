@@ -30,9 +30,10 @@ import java.util.TimerTask;
 
 public class HomePageAdapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
-
+    private RecyclerView.RecycledViewPool recycledViewPool;
     public HomePageAdapter(List<HomePageModel> homePageModelList) {
         this.homePageModelList = homePageModelList;
+        recycledViewPool = new RecyclerView.RecycledViewPool()
     }
 
     @Override
@@ -220,6 +221,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             horizontalTitle = itemView.findViewById(R.id.horizontal_scroll_layout_title);
             horizontalviewAllButton = itemView.findViewById(R.id.horizontal_scroll_layout_btn);
             horizontalRecyclerView = itemView.findViewById(R.id.horizontal_scroll_layout_recyclerview);
+            horizontalRecyclerView.setRecycledViewPool(recycledViewPool);
         }
 
         private void setHorizontalProductLayout(List<HorizontalProductScrollModel> horizontalProductScrollModelList, String title) {
