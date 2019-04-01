@@ -45,7 +45,7 @@ public class MyWishlistFragment extends Fragment {
         wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 1, "4.5", 25, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
         wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 4, "4.7", 45, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
 
-        WishlistAdapter adapter = new WishlistAdapter(wishlistModelList);
+        WishlistAdapter adapter = new WishlistAdapter(wishlistModelList,true);
         wishlistRecyclerview.setAdapter(adapter);
         wishlistRecyclerview.setHasFixedSize(true);
         adapter.notifyDataSetChanged();

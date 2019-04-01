@@ -1,5 +1,6 @@
 package com.example.mymall.Adapter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,14 +13,17 @@ import android.widget.Toast;
 
 import com.example.mymall.Model.WishlistModel;
 import com.example.mymall.R;
+import com.example.mymall.activity.ProductDetailsActivity;
 
 import java.util.List;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
-    List<WishlistModel> wishlistModelList;
+    private List<WishlistModel> wishlistModelList;
+    private Boolean wishlist;
 
-    public WishlistAdapter(List<WishlistModel> wishlistModelList) {
+    public WishlistAdapter(List<WishlistModel> wishlistModelList, Boolean wishlist) {
         this.wishlistModelList = wishlistModelList;
+        this.wishlist = wishlist;
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         String productPrice = wishlistModelList.get(position).getProductPrice();
         String cuttedPrice = wishlistModelList.get(position).getCuttedPrice();
         String paymentMethod = wishlistModelList.get(position).getPaymentMethod();
-        viewHolder.setData(resource,title,freeCoupens,rating,totalrating,productPrice,cuttedPrice,paymentMethod);
+        viewHolder.setData(resource, title, freeCoupens, rating, totalrating, productPrice, cuttedPrice, paymentMethod);
 
     }
 
@@ -49,7 +53,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView productImage,coupenIcon;
+        private ImageView productImage, coupenIcon;
         private TextView productTitle, freeCoupens, productPrice, cuttedPrice, paymentMethod, rating, totalratings;
         private View priceCut;
         private ImageButton deleteBtn;
@@ -86,15 +90,28 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             }
 
             rating.setText(averageRate);
-            totalratings.setText(totalRatingsNo+"(ratings)");
+            totalratings.setText(totalRatingsNo + "(ratings)");
             productPrice.setText(price);
             cuttedPrice.setText(cuttedPriceValue);
             paymentMethod.setText(payMethod);
 
+            if (wishlist) {
+                deleteBtn.setVisibility(View.VISIBLE);
+            } else {
+                deleteBtn.setVisibility(View.GONE);
+            }
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(itemView.getContext(), "delete", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(productDetailsIntent);
                 }
             });
         }
