@@ -80,16 +80,10 @@ public class HomeFragment extends Fragment {
         //Banner slider
         List<SliderModel> sliderModelList = new ArrayList<>();
 
-        sliderModelList.add(new SliderModel(R.drawable.ic_favorite_black, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.common_google_signin_btn_icon_dark_focused, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
-
         sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
         sliderModelList.add(new SliderModel(R.drawable.ic_favorite_black, "#000000"));
-
         sliderModelList.add(new SliderModel(R.drawable.common_google_signin_btn_icon_dark_focused, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
+
         //End Banner slider
 
         ///start delas of the day

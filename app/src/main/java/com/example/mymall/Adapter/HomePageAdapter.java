@@ -26,6 +26,7 @@ import com.example.mymall.R;
 import com.example.mymall.activity.ProductDetailsActivity;
 import com.example.mymall.activity.ViewAllActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +34,7 @@ import java.util.TimerTask;
 public class HomePageAdapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
     private RecyclerView.RecycledViewPool recycledViewPool;
+
     public HomePageAdapter(List<HomePageModel> homePageModelList) {
         this.homePageModelList = homePageModelList;
         recycledViewPool = new RecyclerView.RecycledViewPool();
@@ -108,10 +110,11 @@ public class HomePageAdapter extends RecyclerView.Adapter {
 
     public class BannerSliderViewHolder extends RecyclerView.ViewHolder {
         private ViewPager bannerSliderViewPager;
-        private int currentPage = 2;
+        private int currentPage;
         private Timer timer;
         final private long DELAY_TIME = 5000;
         final private long PERIOD_TIME = 5000;
+        private List<SliderModel> arrangedList;
 
         BannerSliderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,7 +124,22 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         }
 
         public void setBannerSliderViewPager(final List<SliderModel> sliderModelList) {
-            SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList);
+            currentPage = 2;
+            if (timer != null) {
+                timer.cancel();
+            }
+
+            //Arrangment for slider view
+            arrangedList = new ArrayList<>();
+            for (int i = 0; i <sliderModelList.size() ; i++) {
+                arrangedList.add(i,sliderModelList.get(i));
+            }
+            arrangedList.add(0,sliderModelList.get(sliderModelList.size() -2));
+            arrangedList.add(1,sliderModelList.get(sliderModelList.size() -1));
+            arrangedList.add(sliderModelList.get(0));
+            arrangedList.add(sliderModelList.get(1));
+
+            SliderAdapter sliderAdapter = new SliderAdapter(arrangedList);
             bannerSliderViewPager.setAdapter(sliderAdapter);
             bannerSliderViewPager.setClipToPadding(false);
             bannerSliderViewPager.setPageMargin(20);
@@ -139,20 +157,20 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onPageScrollStateChanged(int i) {
                     if (i == ViewPager.SCROLL_STATE_IDLE) {
-                        pageLooper(sliderModelList);
+                        pageLooper(arrangedList);
                     }
                 }
             };
 
             bannerSliderViewPager.addOnPageChangeListener(onPageChangeListener);
-            startBannerSlideShow(sliderModelList);
+            startBannerSlideShow(arrangedList);
             bannerSliderViewPager.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    pageLooper(sliderModelList);
+                    pageLooper(arrangedList);
                     stopbannerSlideShow();
                     if (event.getAction() == MotionEvent.ACTION_UP) {
-                        startBannerSlideShow(sliderModelList);
+                        startBannerSlideShow(arrangedList);
                     }
                     return false;
                 }
@@ -256,19 +274,19 @@ public class HomePageAdapter extends RecyclerView.Adapter {
     public class GridProductViewHolder extends RecyclerView.ViewHolder {
         TextView gridLayoutTitle;
         Button gridLayoutViewAllBtn;
-       private GridLayout gridProductLayout;
+        private GridLayout gridProductLayout;
 
         public GridProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
             gridLayoutTitle = itemView.findViewById(R.id.grid_product_layout_title);
             gridLayoutViewAllBtn = itemView.findViewById(R.id.grid_product_layout_viewall_btn);
-           gridProductLayout = itemView.findViewById(R.id.gridLayout);
+            gridProductLayout = itemView.findViewById(R.id.gridLayout);
         }
 
         private void setGridProductLayout(List<HorizontalProductScrollModel> gridProductScrollModelList, String title) {
             gridLayoutTitle.setText(title);
-            for (int i = 0; i < 4 ; i++) {
+            for (int i = 0; i < 4; i++) {
                 ImageView productImage = gridProductLayout.getChildAt(i).findViewById(R.id.h_s_product_image);
                 TextView productTitle = gridProductLayout.getChildAt(i).findViewById(R.id.h_s_product_title);
                 TextView productDescription = gridProductLayout.getChildAt(i).findViewById(R.id.h_s_product_description);

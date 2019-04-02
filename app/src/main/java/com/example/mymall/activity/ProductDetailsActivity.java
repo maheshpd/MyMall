@@ -23,6 +23,8 @@ import com.example.mymall.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.mymall.activity.MainActivity.showCart;
+
 public class ProductDetailsActivity extends AppCompatActivity {
     private ViewPager productImagesViewPager;
     private TabLayout viewpagerIndicator;
@@ -151,6 +153,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.productdetails_cart_icon) {
             //todo:notification
+            Intent cartIntent = new Intent(ProductDetailsActivity.this, MainActivity.class);
+            showCart = true;
+            startActivity(cartIntent);
             return true;
         } else if (id == android.R.id.home) {
             finish();
