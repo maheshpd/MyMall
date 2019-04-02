@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (currentFragment == HOME_FRAGMENT) {
+                currentFragment =-1;
                 super.onBackPressed();
             } else {
                 actionbarLogo.setVisibility(View.VISIBLE);

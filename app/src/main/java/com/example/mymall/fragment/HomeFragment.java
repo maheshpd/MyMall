@@ -121,6 +121,12 @@ public class HomeFragment extends Fragment {
         homePageModelList.add(new HomePageModel(3, "Treading", horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1, R.drawable.sliderbanner, "#ffff00"));
 
+        homePageModelList.add(new HomePageModel(0, sliderModelList));
+        homePageModelList.add(new HomePageModel(1, R.drawable.sliderbanner, "#000000"));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day", horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(3, "Treading", horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1, R.drawable.sliderbanner, "#ffff00"));
+
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         testing.setAdapter(adapter);
         adapter.notifyDataSetChanged();
