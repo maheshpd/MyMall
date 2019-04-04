@@ -152,7 +152,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             productQuantity.setText("Qty: "+quantityNo.getText());
-                            quantityDialog.dismiss();
+
                         }
                     });
                     quantityDialog.show();
