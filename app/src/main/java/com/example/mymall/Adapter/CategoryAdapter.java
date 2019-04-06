@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mymall.activity.CategoryActivity;
 import com.example.mymall.Model.CategoryModel;
 import com.example.mymall.R;
@@ -51,6 +53,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 }
             }
         });
+        if (!icon.equals("null")) {
+            Glide.with(context).load(icon).apply(new RequestOptions().placeholder(R.drawable.home_icon)).into(categoryViewHolder.categoryImage);
+        }
     }
 
     @Override
