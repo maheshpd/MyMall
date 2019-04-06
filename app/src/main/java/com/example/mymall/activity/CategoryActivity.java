@@ -41,45 +41,14 @@ public class CategoryActivity extends AppCompatActivity {
         //Banner slider
         List<SliderModel> sliderModelList = new ArrayList<>();
 
-        sliderModelList.add(new SliderModel(R.drawable.ic_favorite_black, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.common_google_signin_btn_icon_dark_focused, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
 
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_favorite_black, "#000000"));
-
-        sliderModelList.add(new SliderModel(R.drawable.common_google_signin_btn_icon_dark_focused, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
-        sliderModelList.add(new SliderModel(R.drawable.sliderbanner, "#000000"));
         //End Banner slider
-
-        ///start delas of the day
-        List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.gionee, "Gionee A1", "SD 625 Processor", "Rs.15000/-"));
-
-        //End Horizontal
-
-
         ////RecyclerView
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoryRecyclerview.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
-        homePageModelList.add(new HomePageModel(0, sliderModelList));
-        homePageModelList.add(new HomePageModel(1, R.drawable.sliderbanner, "#000000"));
-        homePageModelList.add(new HomePageModel(2, "Deals of the day", horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(3, "Treading", horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(1, R.drawable.sliderbanner, "#ffff00"));
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         categoryRecyclerview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
