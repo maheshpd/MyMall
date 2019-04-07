@@ -56,10 +56,10 @@ public class GridProductLayoutAdapter extends BaseAdapter {
             TextView productDescription = view.findViewById(R.id.g_s_product_description);
             TextView productPrice = view.findViewById(R.id.g_s_product_price);
 
-            Glide.with(parent.getContext()).load(gridProductScrollModelList.get(position)).apply(new RequestOptions()).placeholder(R.drawable.gionee).into(productImage);
+            Glide.with(parent.getContext()).load(gridProductScrollModelList.get(position).getProductImage()).apply(new RequestOptions()).placeholder(R.drawable.gionee).into(productImage);
             productTitle.setText(gridProductScrollModelList.get(position).getProductTitle());
             productDescription.setText(gridProductScrollModelList.get(position).getProductDescription());
-            productPrice.setText(gridProductScrollModelList.get(position).getProductPrice());
+            productPrice.setText("Rs."+gridProductScrollModelList.get(position).getProductPrice()+"/-");
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

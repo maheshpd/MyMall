@@ -16,13 +16,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.mymall.Model.GridProductScrollModel;
 import com.example.mymall.Model.HomePageModel;
 import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.Model.SliderModel;
@@ -34,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.example.mymall.activity.ViewAllActivity.horizontalProductScrollModelList;
 
 public class HomePageAdapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelList;
@@ -295,7 +295,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             gridProductLayout = itemView.findViewById(R.id.gridLayout);
         }
 
-        private void setGridProductLayout(List<HorizontalProductScrollModel> gridProductScrollModelList, String title, String color) {
+        private void setGridProductLayout(final List<HorizontalProductScrollModel> gridProductScrollModelList, String title, String color) {
             constraintLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
             gridLayoutTitle.setText(title);
             for (int i = 0; i < 4; i++) {
@@ -307,7 +307,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 Glide.with(itemView.getContext()).load(gridProductScrollModelList.get(i).getProductImage()).apply(new RequestOptions()).placeholder(R.drawable.gionee).into(productImage);
                 productTitle.setText(gridProductScrollModelList.get(i).getProductTitle());
                 productDescription.setText(gridProductScrollModelList.get(i).getProductDescription());
-                productPrice.setText(gridProductScrollModelList.get(i).getProductPrice());
+                productPrice.setText("Rs."+gridProductScrollModelList.get(i).getProductPrice()+"/-");
                 gridProductLayout.getChildAt(i).setBackgroundColor(Color.parseColor("#ffffff"));
                 gridProductLayout.getChildAt(i).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -320,7 +320,9 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             gridLayoutViewAllBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ViewAllActivity.horizontalProductScrollModelList = gridProductScrollModelList;
                     Intent viewAllIntent = new Intent(itemView.getContext(), ViewAllActivity.class);
+                    viewAllIntent.putExtra("layout_code", 1);
                     viewAllIntent.putExtra("layout_code", 1);
                     itemView.getContext().startActivity(viewAllIntent);
                 }
