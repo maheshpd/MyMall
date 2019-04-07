@@ -10,6 +10,7 @@ import com.example.mymall.Model.CategoryModel;
 import com.example.mymall.Model.HomePageModel;
 import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.Model.SliderModel;
+import com.example.mymall.Model.WishlistModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -65,6 +66,7 @@ public class DBqueries {
                                     homePageModelList.add(new HomePageModel(1, documentSnapshot.get("strip_ad_banner").toString(),
                                             documentSnapshot.get("background").toString()));
                                 } else if ((long) documentSnapshot.get("view_type") == 2) {
+                                    List<WishlistModel> viewAllProductList = new ArrayList<>();
                                     List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
                                     long no_of_product = (long) documentSnapshot.get("no_of_products");
                                     for (long i = 1; i < no_of_product + 1; i++) {
@@ -73,8 +75,16 @@ public class DBqueries {
                                                 documentSnapshot.get("product_title_" + i).toString(),
                                                 documentSnapshot.get("product_subtitle_" + i).toString(),
                                                 documentSnapshot.get("product_price_" + i).toString()));
+                                        viewAllProductList.add(new WishlistModel(documentSnapshot.get("product_image_" + i).toString(),
+                                                documentSnapshot.get("product_full_title_" + i).toString(),
+                                                (long) documentSnapshot.get("free_coupens_" + i),
+                                                documentSnapshot.get("average_rating_" + i).toString(),
+                                                (long) documentSnapshot.get("total_ratings_" + i),
+                                                documentSnapshot.get("product_price_" + i).toString(),
+                                                documentSnapshot.get("cutted_price_" + i).toString(),
+                                                (boolean) documentSnapshot.get("COD_" + i)));
                                     }
-                                    homePageModelList.add(new HomePageModel(2, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList));
+                                    homePageModelList.add(new HomePageModel(2, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList,viewAllProductList));
 
                                 } else if ((long) documentSnapshot.get("view_type") == 3) {
                                     List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();

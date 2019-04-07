@@ -64,21 +64,50 @@ public class HomePageModel {
     ///start delas of the day && Grid product Layout
     private String title;
     private List<HorizontalProductScrollModel> horizontalProductScrollModelList;
-    public HomePageModel(int type, String title, String backgroundColor,List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
+
+
+    //Recycler product list
+    private List<WishlistModel> viewAllProductList;
+
+    public HomePageModel(int type, String title, String backgroundColor, List<HorizontalProductScrollModel> horizontalProductScrollModelList, List<WishlistModel> viewAllProductList) {
+        this.type = type;
+        this.title = title;
+        this.backgroundColor = backgroundColor;
+        this.viewAllProductList = viewAllProductList;
+        this.horizontalProductScrollModelList = horizontalProductScrollModelList;
+    }
+
+    public List<WishlistModel> getViewAllProductList() {
+        return viewAllProductList;
+    }
+
+    public void setViewAllProductList(List<WishlistModel> viewAllProductList) {
+        this.viewAllProductList = viewAllProductList;
+    }
+
+    //ens recycler product list
+
+    //start Horizontal PRODUCT list model
+    public HomePageModel(int type, String title, String backgroundColor, List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
         this.type = type;
         this.title = title;
         this.backgroundColor = backgroundColor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
     }
+
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public List<HorizontalProductScrollModel> getHorizontalProductScrollModelList() {
         return horizontalProductScrollModelList;
     }
+
     public void setHorizontalProductScrollModelList(List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
     }

@@ -23,6 +23,8 @@ public class ViewAllActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GridView gridView;
     public static List<HorizontalProductScrollModel> horizontalProductScrollModelList;
+    public static List<WishlistModel> wishlistModelList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class ViewAllActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         gridView = findViewById(R.id.grid_view);
         int layout_code = getIntent().getIntExtra("layout_code", -1);
-        if (layout_code==0) {
+        if (layout_code == 0) {
 
 
             recyclerView.setVisibility(View.VISIBLE);
@@ -45,21 +47,10 @@ public class ViewAllActivity extends AppCompatActivity {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(layoutManager);
 
-            List<WishlistModel> wishlistModelList = new ArrayList<>();
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 2, "2.7", 25, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 0, "3.5", 10, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 2, "3.1", 15, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 1, "4.5", 25, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 4, "4.7", 45, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 2, "2.7", 25, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 0, "3.5", 10, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 2, "3.1", 15, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 1, "4.5", 25, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.gionee, "Gionee A1", 4, "4.7", 45, "Rs.15999/-", "Rs.17999/-", "Case on delivery"));
             WishlistAdapter wishlistAdapter = new WishlistAdapter(wishlistModelList, false);
             recyclerView.setAdapter(wishlistAdapter);
             wishlistAdapter.notifyDataSetChanged();
-        }else if (layout_code == 1) {
+        } else if (layout_code == 1) {
             gridView.setVisibility(View.VISIBLE);
             GridProductLayoutAdapter gridProductLayoutAdapter = new GridProductLayoutAdapter(horizontalProductScrollModelList);
             gridView.setAdapter(gridProductLayoutAdapter);
