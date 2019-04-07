@@ -1,26 +1,36 @@
 package com.example.mymall.Model;
 
 public class GridProductScrollModel {
-    private int productImage;
+    private String productImage;
     private String productTitle;
     private String productDescription;
     private String productPrice;
+    private String productID;
 
     public GridProductScrollModel() {
     }
 
-    public GridProductScrollModel(int productImage, String productTitle, String productDescription, String productPrice) {
+    public GridProductScrollModel(String productID,String productImage, String productTitle, String productDescription, String productPrice) {
+        this.productID = productID;
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
     }
 
-    public int getProductImage() {
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(int productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 

@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mymall.Model.GridProductScrollModel;
 import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.R;
@@ -54,7 +56,7 @@ public class GridProductLayoutAdapter extends BaseAdapter {
             TextView productDescription = view.findViewById(R.id.g_s_product_description);
             TextView productPrice = view.findViewById(R.id.g_s_product_price);
 
-//            productImage.setImageResource(gridProductScrollModelList.get(position).getProductImage());
+            Glide.with(parent.getContext()).load(gridProductScrollModelList.get(position)).apply(new RequestOptions()).placeholder(R.drawable.gionee).into(productImage);
             productTitle.setText(gridProductScrollModelList.get(position).getProductTitle());
             productDescription.setText(gridProductScrollModelList.get(position).getProductDescription());
             productPrice.setText(gridProductScrollModelList.get(position).getProductPrice());
