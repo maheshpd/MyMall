@@ -49,7 +49,7 @@ public class CategoryActivity extends AppCompatActivity {
         categoryRecyclerview.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
-        HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
+        HomePageAdapter adapter = new HomePageAdapter(homePageModelList,this);
         categoryRecyclerview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

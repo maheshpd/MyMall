@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.R;
 import com.example.mymall.activity.ProductDetailsActivity;
@@ -18,9 +20,10 @@ import java.util.List;
 
 public class HorizontalProductAdapter extends RecyclerView.Adapter<HorizontalProductAdapter.HorizontalProductViewHolder> {
     private List<HorizontalProductScrollModel> list;
-
-    public HorizontalProductAdapter(List<HorizontalProductScrollModel> list) {
+    private Context context;
+    public HorizontalProductAdapter(List<HorizontalProductScrollModel> list,Context context) {
         this.list = list;
+        this.context = context;
     }
 
     @NonNull
@@ -33,9 +36,10 @@ public class HorizontalProductAdapter extends RecyclerView.Adapter<HorizontalPro
     @Override
     public void onBindViewHolder(@NonNull HorizontalProductViewHolder horizontalProductViewHolder, int i) {
         HorizontalProductScrollModel horizontalProductScrollModel = list.get(i);
+        Glide.with(context).load(horizontalProductScrollModel.getProductImage()).apply(new RequestOptions()).placeholder(R.drawable.gionee).into(horizontalProductViewHolder.productImage);
         horizontalProductViewHolder.productTitle.setText(horizontalProductScrollModel.getProductTitle());
         horizontalProductViewHolder.productDescription.setText(horizontalProductScrollModel.getProductDescription());
-        horizontalProductViewHolder.productPrice.setText(horizontalProductScrollModel.getProductPrice());
+        horizontalProductViewHolder.productPrice.setText("Rs."+horizontalProductScrollModel.getProductPrice()+"/-");
     }
 
     @Override
