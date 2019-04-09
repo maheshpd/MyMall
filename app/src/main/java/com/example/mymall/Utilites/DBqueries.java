@@ -24,8 +24,9 @@ public class DBqueries {
 
     public static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     public static List<CategoryModel> categoryModelList = new ArrayList<>();
-    public static List<HomePageModel> homePageModelList = new ArrayList<>();
 
+    public static List<List<HomePageModel>> lists = new ArrayList<>();
+    public static List<String> loadedCategoriesNames = new ArrayList<>();
     public static void loadCategories(final CategoryAdapter categoryAdapter, final Context context) {
 
         firebaseFirestore.collection("CATEGORIES").orderBy("index").get()
@@ -45,8 +46,8 @@ public class DBqueries {
                 });
     }
 
-    public static void loadFragmentData(final HomePageAdapter adapter, final Context context) {
-        firebaseFirestore.collection("CATEGORIES").document("HOME")
+    public static void loadFragmentData(final HomePageAdapter adapter, final Context context,final int index,String categoryName) {
+        firebaseFirestore.collection("CATEGORIES").document(categoryName.toUpperCase())
                 .collection("TOP_DEALS").orderBy("index").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -61,9 +62,9 @@ public class DBqueries {
                                         sliderModelList.add(new SliderModel(documentSnapshot.get("banner_" + i).toString(),
                                                 documentSnapshot.get("banner_" + i + "_background").toString()));
                                     }
-                                    homePageModelList.add(new HomePageModel(0, sliderModelList));
+                                    lists.get(index).add(new HomePageModel(0, sliderModelList));
                                 } else if ((long) documentSnapshot.get("view_type") == 1) {
-                                    homePageModelList.add(new HomePageModel(1, documentSnapshot.get("strip_ad_banner").toString(),
+                                    lists.get(index).add(new HomePageModel(1, documentSnapshot.get("strip_ad_banner").toString(),
                                             documentSnapshot.get("background").toString()));
                                 } else if ((long) documentSnapshot.get("view_type") == 2) {
                                     List<WishlistModel> viewAllProductList = new ArrayList<>();
@@ -84,7 +85,7 @@ public class DBqueries {
                                                 documentSnapshot.get("cutted_price_" + i).toString(),
                                                 (boolean) documentSnapshot.get("COD_" + i)));
                                     }
-                                    homePageModelList.add(new HomePageModel(2, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList,viewAllProductList));
+                                    lists.get(index).add(new HomePageModel(2, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList, viewAllProductList));
 
                                 } else if ((long) documentSnapshot.get("view_type") == 3) {
                                     List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
@@ -96,7 +97,7 @@ public class DBqueries {
                                                 documentSnapshot.get("product_subtitle_" + i).toString(),
                                                 documentSnapshot.get("product_price_" + i).toString()));
                                     }
-                                    homePageModelList.add(new HomePageModel(3, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList));
+                                    lists.get(index).add(new HomePageModel(3, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList));
 
                                 }
                             }

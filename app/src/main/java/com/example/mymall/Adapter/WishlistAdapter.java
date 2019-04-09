@@ -92,7 +92,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             }
 
             rating.setText(averageRate);
-            totalratings.setText(totalRatingsNo + "(ratings)");
+            totalratings.setText("("+totalRatingsNo +")ratings");
             productPrice.setText("Rs."+price+"/-");
             cuttedPrice.setText("Rs."+cuttedPriceValue+"/-");
             if (cod) {

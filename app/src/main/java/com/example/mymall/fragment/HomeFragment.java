@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.mymall.Adapter.CategoryAdapter;
 import com.example.mymall.Adapter.HomePageAdapter;
+import com.example.mymall.Model.HomePageModel;
 import com.example.mymall.R;
 
+import java.util.ArrayList;
+
 import static com.example.mymall.Utilites.DBqueries.categoryModelList;
-import static com.example.mymall.Utilites.DBqueries.homePageModelList;
+import static com.example.mymall.Utilites.DBqueries.lists;
 import static com.example.mymall.Utilites.DBqueries.loadCategories;
 import static com.example.mymall.Utilites.DBqueries.loadFragmentData;
+import static com.example.mymall.Utilites.DBqueries.loadedCategoriesNames;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,8 +63,8 @@ public class HomeFragment extends Fragment {
             categoryAdapter = new CategoryAdapter(categoryModelList, getActivity());
             categoryRecyclerview.setAdapter(categoryAdapter);
             if (categoryModelList.size() == 0) {
-                loadCategories(categoryAdapter,getContext());
-            }else {
+                loadCategories(categoryAdapter, getContext());
+            } else {
                 categoryAdapter.notifyDataSetChanged();
             }
 
@@ -70,16 +74,18 @@ public class HomeFragment extends Fragment {
             testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             homePageRecyclerView.setLayoutManager(testingLayoutManager);
 
-            adapter = new HomePageAdapter(homePageModelList, getContext());
-            homePageRecyclerView.setAdapter(adapter);
 
-            if (homePageModelList.size() == 0) {
-                loadFragmentData(adapter,getContext());
-            }else {
-                categoryAdapter.notifyDataSetChanged();
+            if (lists.size() == 0) {
+                loadedCategoriesNames.add("HOME");
+                lists.add(new ArrayList<HomePageModel>());
+                adapter = new HomePageAdapter(lists.get(0), getContext());
+                loadFragmentData(adapter, getContext(), 0,"Home");
+            } else {
+                adapter = new HomePageAdapter(lists.get(0), getContext());
+                adapter.notifyDataSetChanged();
             }
-
-        }else {
+            homePageRecyclerView.setAdapter(adapter);
+        } else {
             noInternetConnection.setVisibility(View.VISIBLE);
             Glide.with(this).load(R.drawable.no_internet_connection).into(noInternetConnection);
         }

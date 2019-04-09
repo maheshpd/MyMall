@@ -1,27 +1,28 @@
 package com.example.mymall.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.mymall.Adapter.CategoryAdapter;
 import com.example.mymall.Adapter.HomePageAdapter;
-import com.example.mymall.Model.CategoryModel;
 import com.example.mymall.Model.HomePageModel;
-import com.example.mymall.Model.HorizontalProductScrollModel;
 import com.example.mymall.Model.SliderModel;
 import com.example.mymall.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.mymall.Utilites.DBqueries.lists;
+import static com.example.mymall.Utilites.DBqueries.loadFragmentData;
+import static com.example.mymall.Utilites.DBqueries.loadedCategoriesNames;
+
 public class CategoryActivity extends AppCompatActivity {
     private RecyclerView categoryRecyclerview;
-
+    HomePageAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,6 @@ public class CategoryActivity extends AppCompatActivity {
         categoryRecyclerview = findViewById(R.id.category_recyclerview);
 
         //Banner slider
-        List<SliderModel> sliderModelList = new ArrayList<>();
-
 
         //End Banner slider
         ////RecyclerView
@@ -48,8 +47,24 @@ public class CategoryActivity extends AppCompatActivity {
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoryRecyclerview.setLayoutManager(testingLayoutManager);
 
-        List<HomePageModel> homePageModelList = new ArrayList<>();
-        HomePageAdapter adapter = new HomePageAdapter(homePageModelList,this);
+        int listPosition = 0;
+        for (int i = 0; i < loadedCategoriesNames.size(); i++) {
+            if (loadedCategoriesNames.get(i).equals(title.toUpperCase())) {
+                listPosition = i;
+            }
+        }
+
+        if (listPosition == 0)
+        {
+            loadedCategoriesNames.add(title.toUpperCase());
+            lists.add(new ArrayList<HomePageModel>());
+            adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size()-1),this);
+            loadFragmentData(adapter, this, loadedCategoriesNames.size()-1,title);
+        }else {
+            adapter = new HomePageAdapter(lists.get(listPosition),this);
+        }
+
+
         categoryRecyclerview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
