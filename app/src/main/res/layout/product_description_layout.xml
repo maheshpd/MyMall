@@ -2,17 +2,18 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/product_details_tabs_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="3dp"
-    android:background="@color/colorAccent">
+    android:background="@color/colorAccent"
+    android:elevation="3dp">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/product_details_tablayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="#d4d4d4"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/colorPrimary"

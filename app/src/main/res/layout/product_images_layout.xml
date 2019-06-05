@@ -11,7 +11,10 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/product_images_view_pager"
         android:layout_width="0dp"
-        android:layout_height="250dp" />
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/viewpager_indicator"
@@ -39,12 +42,14 @@
 
     <TextView
         android:id="@+id/product_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:text="Product Title"
         android:textColor="@android:color/black"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewpager_indicator" />
 
@@ -95,7 +100,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -113,8 +118,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Rs.59999/-"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintStart_toEndOf="@+id/textView5" />
+        app:layout_constraintBottom_toBottomOf="@+id/product_price"
+        app:layout_constraintStart_toEndOf="@+id/product_price" />
 
     <View
         android:id="@+id/divider3"
@@ -160,7 +165,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/product_price">
 
         <TextView
             android:id="@+id/tv_coupen_rememption"

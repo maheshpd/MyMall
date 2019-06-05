@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -20,12 +21,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mymall.Adapter.MyRewardsAdapter;
 import com.example.mymall.Adapter.ProductDetailsAdapter;
 import com.example.mymall.Adapter.ProductImagesAdapter;
 import com.example.mymall.Model.RewardModel;
 import com.example.mymall.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +40,16 @@ import static com.example.mymall.activity.MainActivity.showCart;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     private ViewPager productImagesViewPager;
+    private TextView product_title;
+    private TextView averageRatingMiniView;
+    private TextView totalRatingMiniView;
+    private TextView productPrice;
+    private TextView cuttedPrice;
     private TabLayout viewpagerIndicator;
+    private ImageView codIndicator;
+    private TextView tvCodIndicator;
+    private TextView rewardTitle;
+    private TextView rewardBody;
     private FloatingActionButton addToWishlistBtn;
     private static boolean AlREADYADDEDTOWISHLIST = false;
 
@@ -55,6 +70,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private Button buyNowBtn, coupenRedeemBtn;
 
+    //Start Firebase
+    private FirebaseFirestore firebaseFirestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,14 +92,56 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsTabLayout = findViewById(R.id.product_details_tablayout);
         buyNowBtn = findViewById(R.id.buy_now_btn);
         coupenRedeemBtn = findViewById(R.id.coupen_redemption_btn);
-        List<Integer> productImages = new ArrayList<>();
-        productImages.add(R.drawable.gionee);
-        productImages.add(R.drawable.user);
-        productImages.add(R.drawable.gionee);
-        productImages.add(R.drawable.sliderbanner);
+        product_title = findViewById(R.id.product_title);
+        averageRatingMiniView = findViewById(R.id.tv_product_rating_miniview);
+        totalRatingMiniView = findViewById(R.id.total_ratings_miniview);
+        productPrice = findViewById(R.id.product_price);
+        cuttedPrice = findViewById(R.id.cutted_price);
+        tvCodIndicator = findViewById(R.id.tv_cod_indicator);
+        codIndicator = findViewById(R.id.cod_indicator_imageview);
+        rewardTitle = findViewById(R.id.reward_title);
+        rewardBody = findViewById(R.id.reward_body);
 
-        ProductImagesAdapter productImagesAdapter = new ProductImagesAdapter(productImages);
-        productImagesViewPager.setAdapter(productImagesAdapter);
+
+        //init Firebase
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        final List<String> productImages = new ArrayList<>();
+        firebaseFirestore.collection("PRODUCTS").document("MhUytIBtxShkFn0cxmqK")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    for (long i = 1; i < (long) documentSnapshot.get("no_of_product_images") + 1; i++) {
+                        productImages.add(documentSnapshot.get("product_image_" + i).toString());
+                    }
+                    ProductImagesAdapter productImagesAdapter = new ProductImagesAdapter(productImages);
+                    productImagesViewPager.setAdapter(productImagesAdapter);
+                    product_title.setText(documentSnapshot.get("product_title").toString());
+                    averageRatingMiniView.setText(documentSnapshot.get("average_rating").toString());
+                    totalRatingMiniView.setText("(" + (long) documentSnapshot.get("total_ratings") + ")ratings");
+                    productPrice.setText("Rs." + documentSnapshot.get("product_price").toString() + "/-");
+                    cuttedPrice.setText("Rs." + documentSnapshot.get("cutted_price").toString() + "/-");
+                    rewardTitle.setText((long) documentSnapshot.get("free_coupens") + documentSnapshot.get("free_coupen_title").toString());
+                    rewardBody.setText(documentSnapshot.get("free_coupen_body").toString());
+                    if ((boolean)documentSnapshot.get("use_tab_layput")){
+
+                    }
+
+                    if ((boolean) documentSnapshot.get("COD")) {
+                        codIndicator.setVisibility(View.VISIBLE);
+                        tvCodIndicator.setVisibility(View.VISIBLE);
+                    } else {
+                        codIndicator.setVisibility(View.INVISIBLE);
+                        tvCodIndicator.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    Toast.makeText(ProductDetailsActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         viewpagerIndicator.setupWithViewPager(productImagesViewPager, true);
         addToWishlistBtn.setOnClickListener(new View.OnClickListener() {
