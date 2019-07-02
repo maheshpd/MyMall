@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -26,8 +27,11 @@ import android.widget.Toast;
 import com.example.mymall.Adapter.MyRewardsAdapter;
 import com.example.mymall.Adapter.ProductDetailsAdapter;
 import com.example.mymall.Adapter.ProductImagesAdapter;
+import com.example.mymall.Model.ProductSpecificationModel;
 import com.example.mymall.Model.RewardModel;
 import com.example.mymall.R;
+import com.example.mymall.fragment.ProductDescriptionFragment;
+import com.example.mymall.fragment.ProductSpecificationFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -61,8 +65,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private static LinearLayout SelectedCoupen;
     ////coupen dialog
 
+    //Product description
+    private ConstraintLayout productDetailsOnlyContainer;
+    private ConstraintLayout productDetailsTabsContainer;
     private ViewPager productDetailsViewpager;
     private TabLayout productDetailsTabLayout;
+    //product description
 
     //start rating layout
     private LinearLayout rateNowContainer;
@@ -101,7 +109,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         codIndicator = findViewById(R.id.cod_indicator_imageview);
         rewardTitle = findViewById(R.id.reward_title);
         rewardBody = findViewById(R.id.reward_body);
-
+        productDetailsTabsContainer = findViewById(R.id.product_details_tabs_container);
+        productDetailsOnlyContainer = findViewById(R.id.product_details_container);
 
         //init Firebase
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -125,8 +134,22 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     cuttedPrice.setText("Rs." + documentSnapshot.get("cutted_price").toString() + "/-");
                     rewardTitle.setText((long) documentSnapshot.get("free_coupens") + documentSnapshot.get("free_coupen_title").toString());
                     rewardBody.setText(documentSnapshot.get("free_coupen_body").toString());
-                    if ((boolean)documentSnapshot.get("use_tab_layput")){
+                    if ((boolean) documentSnapshot.get("use_tab_layput")) {
+                        productDetailsTabsContainer.setVisibility(View.VISIBLE);
+                        productDetailsOnlyContainer.setVisibility(View.GONE);
+                        ProductDescriptionFragment.productDescription = documentSnapshot.get("product_description").toString();
+                        ProductSpecificationFragment.productSpecificationModelList = new ArrayList<>();
 
+                        for (long i = 1; i <= (long)documentSnapshot.get("total_spec_titles"); i++) {
+                            ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+i).toString()));
+                            for (int j = 1; j <=(long)documentSnapshot.get("spec_title_"+i+"_total_fields") ; j++) {
+                                ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+i+"_field_"+j+"_name").toString(),documentSnapshot.get("spec_title_"+i+"_field_"+j+"_value").toString()));
+                            }
+                        }
+
+                    }else {
+                        productDetailsTabsContainer.setVisibility(View.GONE);
+                        productDetailsOnlyContainer.setVisibility(View.VISIBLE);
                     }
 
                     if ((boolean) documentSnapshot.get("COD")) {
