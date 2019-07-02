@@ -144,6 +144,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+i).toString()));
                             for (int j = 1; j <=(long)documentSnapshot.get("spec_title_"+i+"_total_fields") ; j++) {
                                 ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+i+"_field_"+j+"_name").toString(),documentSnapshot.get("spec_title_"+i+"_field_"+j+"_value").toString()));
+                            //comment
                             }
                         }
 
