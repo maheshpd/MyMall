@@ -1,20 +1,18 @@
 package com.example.mymall.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.mymall.Adapter.HomePageAdapter;
 import com.example.mymall.Model.HomePageModel;
-import com.example.mymall.Model.SliderModel;
 import com.example.mymall.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.mymall.Utilites.DBqueries.lists;
 import static com.example.mymall.Utilites.DBqueries.loadFragmentData;

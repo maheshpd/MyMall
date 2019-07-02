@@ -3,14 +3,13 @@ package com.example.mymall.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.mymall.R;
-import com.example.mymall.activity.DeliveryActivity;
 import com.example.mymall.activity.MyAddressesActivity;
 
 /**

@@ -1,7 +1,7 @@
 package com.example.mymall.Utilites;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 import com.example.mymall.Adapter.CategoryAdapter;

@@ -4,16 +4,16 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +70,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private ConstraintLayout productDetailsTabsContainer;
     private ViewPager productDetailsViewpager;
     private TabLayout productDetailsTabLayout;
+    public static String productDescription;
+    public static String productOtherDetails;
+    public static int tabPosition = -1;
+    private TextView productOnlyDescriptionBody;
     //product description
 
     //start rating layout
@@ -111,6 +115,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         rewardBody = findViewById(R.id.reward_body);
         productDetailsTabsContainer = findViewById(R.id.product_details_tabs_container);
         productDetailsOnlyContainer = findViewById(R.id.product_details_container);
+        productOnlyDescriptionBody = findViewById(R.id.product_details_body);
 
         //init Firebase
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -137,20 +142,20 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     if ((boolean) documentSnapshot.get("use_tab_layput")) {
                         productDetailsTabsContainer.setVisibility(View.VISIBLE);
                         productDetailsOnlyContainer.setVisibility(View.GONE);
-                        ProductDescriptionFragment.productDescription = documentSnapshot.get("product_description").toString();
+                        productDescription = documentSnapshot.get("product_description").toString();
                         ProductSpecificationFragment.productSpecificationModelList = new ArrayList<>();
-
+                        productOtherDetails = documentSnapshot.get("product_other_details").toString();
                         for (long i = 1; i <= (long)documentSnapshot.get("total_spec_titles"); i++) {
                             ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+i).toString()));
                             for (int j = 1; j <=(long)documentSnapshot.get("spec_title_"+i+"_total_fields") ; j++) {
                                 ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+i+"_field_"+j+"_name").toString(),documentSnapshot.get("spec_title_"+i+"_field_"+j+"_value").toString()));
-                            //comment
                             }
                         }
 
                     }else {
                         productDetailsTabsContainer.setVisibility(View.GONE);
                         productDetailsOnlyContainer.setVisibility(View.VISIBLE);
+                        productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());
                     }
 
                     if ((boolean) documentSnapshot.get("COD")) {
@@ -186,6 +191,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                tabPosition = tab.getPosition();
                 productDetailsViewpager.setCurrentItem(tab.getPosition());
             }
 
