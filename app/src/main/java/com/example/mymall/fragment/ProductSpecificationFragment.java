@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.mymall.Adapter.ProductSpecificationAdapter;
 import com.example.mymall.Model.ProductSpecificationModel;
 import com.example.mymall.R;
+import com.example.mymall.activity.ProductDetailsActivity;
 
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class ProductSpecificationFragment extends Fragment {
     }
 
     private RecyclerView productSpecificationRecyclerView;
-    public static List<ProductSpecificationModel> productSpecificationModelList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class ProductSpecificationFragment extends Fragment {
 //        productSpecificationModelList.add(new ProductSpecificationModel(1, "RAM", "4GB"));
 //        productSpecificationModelList.add(new ProductSpecificationModel(1, "RAM", "4GB"));
 
-        ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(productSpecificationModelList);
+        ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(ProductDetailsActivity.productSpecificationModelList);
         productSpecificationRecyclerView.setAdapter(productSpecificationAdapter);
         productSpecificationRecyclerView.setHasFixedSize(true);
         productSpecificationAdapter.notifyDataSetChanged();

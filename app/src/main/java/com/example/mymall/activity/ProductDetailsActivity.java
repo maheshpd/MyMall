@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,10 +75,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public static String productOtherDetails;
     public static int tabPosition = -1;
     private TextView productOnlyDescriptionBody;
+    public static List<ProductSpecificationModel> productSpecificationModelList=new ArrayList<>();
     //product description
 
     //start rating layout
     private LinearLayout rateNowContainer;
+    private TextView totalRatings;
+    private LinearLayout ratingsNoContainer;
+    private TextView totalRatingsFigure;
+    private LinearLayout ratingsProgressBarContainer;
     //end rating layout
 
     private Button buyNowBtn, coupenRedeemBtn;
@@ -116,6 +122,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsTabsContainer = findViewById(R.id.product_details_tabs_container);
         productDetailsOnlyContainer = findViewById(R.id.product_details_container);
         productOnlyDescriptionBody = findViewById(R.id.product_details_body);
+        totalRatings = findViewById(R.id.total_ratings);
+        ratingsNoContainer = findViewById(R.id.ratings_numbers_container);
+        totalRatingsFigure = findViewById(R.id.ratings_figure);
+        ratingsProgressBarContainer = findViewById(R.id.ratings_progressbar_container);
 
         //init Firebase
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -138,17 +148,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     productPrice.setText("Rs." + documentSnapshot.get("product_price").toString() + "/-");
                     cuttedPrice.setText("Rs." + documentSnapshot.get("cutted_price").toString() + "/-");
                     rewardTitle.setText((long) documentSnapshot.get("free_coupens") + documentSnapshot.get("free_coupen_title").toString());
-                    rewardBody.setText(documentSnapshot.get("free_coupen_body").toString());
-                    if ((boolean) documentSnapshot.get("use_tab_layput")) {
+                    rewardBody.setText(documentSnapshot.get("free_coupens_body").toString());
+                    if ((boolean) documentSnapshot.get("use_tab_layout")) {
                         productDetailsTabsContainer.setVisibility(View.VISIBLE);
                         productDetailsOnlyContainer.setVisibility(View.GONE);
                         productDescription = documentSnapshot.get("product_description").toString();
-                        ProductSpecificationFragment.productSpecificationModelList = new ArrayList<>();
+
                         productOtherDetails = documentSnapshot.get("product_other_details").toString();
                         for (long i = 1; i <= (long)documentSnapshot.get("total_spec_titles"); i++) {
-                            ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+i).toString()));
+                            productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+i).toString()));
                             for (int j = 1; j <=(long)documentSnapshot.get("spec_title_"+i+"_total_fields") ; j++) {
-                                ProductSpecificationFragment.productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+i+"_field_"+j+"_name").toString(),documentSnapshot.get("spec_title_"+i+"_field_"+j+"_value").toString()));
+                                productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+i+"_field_"+j+"_name").toString(),documentSnapshot.get("spec_title_"+i+"_field_"+j+"_value").toString()));
                             }
                         }
 
@@ -157,6 +167,21 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         productDetailsOnlyContainer.setVisibility(View.VISIBLE);
                         productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());
                     }
+
+                    totalRatings.setText((long)documentSnapshot.get("total_ratings")+"ratings");
+
+                    for (int i = 0; i < 5; i++) {
+                        TextView rating = (TextView) ratingsNoContainer.getChildAt(i);
+                        rating.setText(String.valueOf((long)documentSnapshot.get((5-i)+"_star")));
+
+                        ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(i);
+                        int maxProgress = Integer.parseInt(String.valueOf((long)documentSnapshot.get("total_ratings")));
+                        progressBar.setMax(maxProgress);
+                        progressBar.setProgress(Integer.parseInt(String.valueOf((long)documentSnapshot.get((5-i)+"_star"))));
+                    }
+                    totalRatingsFigure.setText(String.valueOf((long)documentSnapshot.get("total_ratings")));
+                    productDetailsViewpager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(), productDetailsTabLayout.getTabCount()));
+
 
                     if ((boolean) documentSnapshot.get("COD")) {
                         codIndicator.setVisibility(View.VISIBLE);
@@ -186,7 +211,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
-        productDetailsViewpager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(), productDetailsTabLayout.getTabCount()));
         productDetailsViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(productDetailsTabLayout));
         productDetailsTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
